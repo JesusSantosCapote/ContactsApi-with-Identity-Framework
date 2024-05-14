@@ -1,15 +1,12 @@
 using BusinessLogic.DTO;
 using BusinessLogic.Services;
-using DataAccess;
 using DataAccess.DataContexts;
 using DataAccess.Entitys;
 using DataAccess.Repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Presentation.Extensions;
 using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +18,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddSwaggerGen(opt =>
 {
-    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ContactsAPI", Version = "v1" });
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

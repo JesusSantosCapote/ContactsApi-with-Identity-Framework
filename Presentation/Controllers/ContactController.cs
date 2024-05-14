@@ -3,10 +3,8 @@ using BusinessLogic.Result;
 using BusinessLogic.Services;
 using DataAccess.Entitys;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
 using Presentation.Extensions;
 
 namespace Presentation.Controllers
