@@ -6,6 +6,7 @@ using DataAccess.Entitys;
 using DataAccess.Repositories;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Presentation.Extensions;
 using System.Reflection;
 using System.Text;
@@ -18,31 +19,38 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyAPI", Version = "v1" });
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
 
-//builder.Services.AddAuthentication(option =>
-//{
-//    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(jwtOption =>
-//{
-//    var key = builder.Configuration.GetValue<string>("JwtConfig:Key");
-//    var keyBytes = Encoding.ASCII.GetBytes(key);
-//    jwtOption.SaveToken = true;
-//    jwtOption.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-//        ValidateLifetime = true,
-//        ValidateAudience = true,
-//        ValidateIssuer = true
-//    };
-//});
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 builder.Services.AddDbContext<ContactsManagerContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging();
-    //options.UseInMemoryDatabase("DefaultConnection");
 });
 
 builder.Services.AddIdentityApiEndpoints<UserEntity>()

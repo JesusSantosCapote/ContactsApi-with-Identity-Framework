@@ -4,13 +4,6 @@ using BusinessLogic.Result;
 using DataAccess.Entitys;
 using DataAccess.Repositories;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BusinessLogic.Services
 {
